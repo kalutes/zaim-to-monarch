@@ -1,3 +1,6 @@
 [submodule "pyzaim"]
 	path = pyzaim
 	url = https://github.com/kalutes/pyzaim.git
+[submodule "monarchmoney"]
+	path = monarchmoney
+	url = https://github.com/hammem/monarchmoney.git
