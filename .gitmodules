@@ -1,0 +1,3 @@
+[submodule "pyzaim"]
+	path = pyzaim
+	url = https://github.com/kalutes/pyzaim.git
