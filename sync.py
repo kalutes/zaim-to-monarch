@@ -77,7 +77,7 @@ def get_zaim_balances():
     crawler.close()
 
     for zaim_account_name, zaim_account_balance in zaim_balances.items():
-        print(f"Found zaim account {zaim_account_name}: ¥{zaim_account_balance}")
+        print(f"Found account {zaim_account_name}: ¥{zaim_account_balance}")
 
     return zaim_balances
 
