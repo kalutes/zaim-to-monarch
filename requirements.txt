@@ -1,0 +1,10 @@
+aiohttp==3.10.0
+CurrencyConverter==0.17.28
+flask==3.0.3
+gql==3.5.0
+oathtool==2.3.1
+python-dotenv==1.0.1
+requests_oauthlib==2.0.0
+schedule==1.2.2
+selenium==4.11.2
+tqdm==4.66.2

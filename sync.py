@@ -8,7 +8,6 @@ from currency_converter import CurrencyConverter
 from dotenv import load_dotenv
 from monarchmoney.monarchmoney import MonarchMoney
 from pyzaim.pyzaim import ZaimCrawler
-from xvfbwrapper import Xvfb
 
 
 async def push_to_monarch(zaim_accounts):
@@ -68,12 +67,17 @@ def convert_to_usd(zaim_accounts):
 
 def get_zaim_balances():
     crawler = ZaimCrawler(
-        os.getenv("ZAIM_USERNAME"), os.getenv("ZAIM_PASSWORD"), headless=True, poor=True
+        os.getenv("ZAIM_USERNAME"),
+        os.getenv("ZAIM_PASSWORD"),
+        poor=True,
     )
 
     zaim_balances = crawler.get_account_balances()
 
     crawler.close()
+
+    for zaim_account_name, zaim_account_balance in zaim_balances.items():
+        print(f"Found zaim account {zaim_account_name}: ¥{zaim_account_balance}")
 
     return zaim_balances
 
@@ -82,9 +86,6 @@ def update_balances():
     print("Syncing account balances.")
 
     zaim_balances = convert_to_usd(get_zaim_balances())
-
-    for zaim_account_name, zaim_account_balance in zaim_balances.items():
-        print(f"Found zaim account {zaim_account_name}: ${zaim_account_balance}")
 
     asyncio.run(push_to_monarch(zaim_balances))
 
@@ -96,9 +97,6 @@ def main():
 
     load_dotenv()
 
-    vdisplay = Xvfb()
-    vdisplay.start()
-
     update_balances()
 
     schedule.every().hour.do(update_balances)
@@ -106,8 +104,6 @@ def main():
     while True:
         schedule.run_pending()
         time.sleep(60)
-
-    vdisplay.stop()
 
 
 if __name__ == "__main__":
