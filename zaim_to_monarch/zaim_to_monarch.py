@@ -68,6 +68,7 @@ async def get_existing_zaim_transactions(
     monarch_session, account_id, start_date, end_date
 ):
     transactions_result = await monarch_session.get_transactions(
+        limit=1000000,
         start_date=format_time_for_monarch(start_date),
         end_date=format_time_for_monarch(end_date),
         account_ids=[account_id],
