@@ -58,5 +58,4 @@ COPY requirements.txt /usr/src/zaim-to-monarch/
 RUN pip install -r /usr/src/zaim-to-monarch/requirements.txt
 
 COPY . /usr/src/zaim-to-monarch/
-CMD ["sync.py"]
-ENTRYPOINT ["python3"]
+ENTRYPOINT ["python3", "main.py"]
