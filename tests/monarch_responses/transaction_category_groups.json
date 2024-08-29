@@ -1,0 +1,139 @@
+{
+    "categoryGroups": [
+        {
+            "id": "184504200517522254",
+            "name": "Income",
+            "order": 0,
+            "type": "income",
+            "updatedAt": "2024-07-29T12:55:17.305947+00:00",
+            "createdAt": "2024-07-29T12:55:17.305935+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522255",
+            "name": "Gifts & Donations",
+            "order": 1,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.305994+00:00",
+            "createdAt": "2024-07-29T12:55:17.305988+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522256",
+            "name": "Auto & Transport",
+            "order": 2,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306026+00:00",
+            "createdAt": "2024-07-29T12:55:17.306021+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522257",
+            "name": "Housing",
+            "order": 3,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306056+00:00",
+            "createdAt": "2024-07-29T12:55:17.306051+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522258",
+            "name": "Bills & Utilities",
+            "order": 4,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306085+00:00",
+            "createdAt": "2024-07-29T12:55:17.306080+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522259",
+            "name": "Food & Dining",
+            "order": 5,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306114+00:00",
+            "createdAt": "2024-07-29T12:55:17.306109+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522260",
+            "name": "Travel & Lifestyle",
+            "order": 6,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306143+00:00",
+            "createdAt": "2024-07-29T12:55:17.306138+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522261",
+            "name": "Shopping",
+            "order": 7,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306171+00:00",
+            "createdAt": "2024-07-29T12:55:17.306167+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522262",
+            "name": "Children",
+            "order": 8,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306203+00:00",
+            "createdAt": "2024-07-29T12:55:17.306198+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522263",
+            "name": "Education",
+            "order": 9,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306233+00:00",
+            "createdAt": "2024-07-29T12:55:17.306228+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522264",
+            "name": "Health & Wellness",
+            "order": 10,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306262+00:00",
+            "createdAt": "2024-07-29T12:55:17.306257+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522265",
+            "name": "Financial",
+            "order": 11,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306291+00:00",
+            "createdAt": "2024-07-29T12:55:17.306286+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522266",
+            "name": "Other",
+            "order": 12,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306319+00:00",
+            "createdAt": "2024-07-29T12:55:17.306314+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522267",
+            "name": "Business",
+            "order": 13,
+            "type": "expense",
+            "updatedAt": "2024-07-29T12:55:17.306347+00:00",
+            "createdAt": "2024-07-29T12:55:17.306342+00:00",
+            "__typename": "CategoryGroup"
+        },
+        {
+            "id": "184504200517522268",
+            "name": "Transfers",
+            "order": 14,
+            "type": "transfer",
+            "updatedAt": "2024-07-29T12:55:17.306374+00:00",
+            "createdAt": "2024-07-29T12:55:17.306370+00:00",
+            "__typename": "CategoryGroup"
+        }
+    ]
+}

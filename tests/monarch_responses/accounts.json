@@ -1,0 +1,170 @@
+{
+    "accounts": [
+        {
+            "id": "11111",
+            "displayName": "Savings",
+            "syncDisabled": false,
+            "deactivatedAt": null,
+            "isHidden": false,
+            "isAsset": true,
+            "currentBalance": 1000,
+            "displayBalance": 1000,
+            "includeInNetWorth": true,
+            "hideFromList": false,
+            "hideTransactionsFromReports": false,
+            "includeBalanceInNetWorth": true,
+            "includeInGoalBalance": true,
+            "dataProvider": "plaid",
+            "isManual": false,
+            "transactionsCount": 1,
+            "holdingsCount": 0,
+            "manualInvestmentsTrackingMethod": null,
+            "order": 0,
+            "type": {
+                "name": "depository",
+                "display": "Cash",
+                "__typename": "AccountType"
+            },
+            "subtype": {
+                "name": "savings",
+                "display": "Savings",
+                "__typename": "AccountSubtype"
+            },
+            "__typename": "Account"
+        },
+        {
+            "id": "22222",
+            "displayName": "Checking",
+            "syncDisabled": false,
+            "deactivatedAt": null,
+            "isHidden": false,
+            "isAsset": true,
+            "currentBalance": 2000,
+            "displayBalance": 2000,
+            "includeInNetWorth": true,
+            "hideFromList": false,
+            "hideTransactionsFromReports": false,
+            "includeBalanceInNetWorth": true,
+            "includeInGoalBalance": true,
+            "dataProvider": "plaid",
+            "isManual": false,
+            "transactionsCount": 1,
+            "holdingsCount": 0,
+            "manualInvestmentsTrackingMethod": null,
+            "order": 1,
+            "type": {
+                "name": "depository",
+                "display": "Cash",
+                "__typename": "AccountType"
+            },
+            "subtype": {
+                "name": "checking",
+                "display": "Checking",
+                "__typename": "AccountSubtype"
+            },
+            "__typename": "Account"
+        },
+        {
+            "id": "33333",
+            "displayName": "JP Credit Card",
+            "syncDisabled": false,
+            "deactivatedAt": null,
+            "isHidden": false,
+            "isAsset": false,
+            "currentBalance": 100,
+            "displayBalance": -100,
+            "includeInNetWorth": true,
+            "hideFromList": false,
+            "hideTransactionsFromReports": false,
+            "includeBalanceInNetWorth": true,
+            "includeInGoalBalance": true,
+            "dataProvider": "",
+            "isManual": true,
+            "transactionsCount": 1,
+            "holdingsCount": 0,
+            "manualInvestmentsTrackingMethod": null,
+            "order": 4,
+            "logoUrl": null,
+            "type": {
+                "name": "credit",
+                "display": "Credit Cards",
+                "__typename": "AccountType"
+            },
+            "subtype": {
+                "name": "credit_card",
+                "display": "Credit Card",
+                "__typename": "AccountSubtype"
+            },
+            "__typename": "Account"
+        },
+        {
+            "id": "44444",
+            "displayName": "JP Checking",
+            "syncDisabled": false,
+            "deactivatedAt": null,
+            "isHidden": false,
+            "isAsset": true,
+            "currentBalance": 3000,
+            "displayBalance": 3000,
+            "includeInNetWorth": true,
+            "hideFromList": false,
+            "hideTransactionsFromReports": false,
+            "includeBalanceInNetWorth": true,
+            "includeInGoalBalance": true,
+            "isManual": true,
+            "transactionsCount": 1,
+            "holdingsCount": 0,
+            "manualInvestmentsTrackingMethod": null,
+            "order": 8,
+            "logoUrl": null,
+            "type": {
+                "name": "depository",
+                "display": "Cash",
+                "__typename": "AccountType"
+            },
+            "subtype": {
+                "name": "checking",
+                "display": "Checking",
+                "__typename": "AccountSubtype"
+            },
+            "__typename": "Account"
+        },
+        {
+            "id": "55555",
+            "displayName": "JP Savings",
+            "syncDisabled": false,
+            "deactivatedAt": null,
+            "isHidden": false,
+            "isAsset": true,
+            "currentBalance": 4000,
+            "displayBalance": 4000,
+            "includeInNetWorth": true,
+            "hideFromList": false,
+            "hideTransactionsFromReports": false,
+            "includeBalanceInNetWorth": true,
+            "includeInGoalBalance": true,
+            "isManual": true,
+            "transactionsCount": 1,
+            "holdingsCount": 0,
+            "manualInvestmentsTrackingMethod": null,
+            "order": 8,
+            "logoUrl": null,
+            "type": {
+                "name": "depository",
+                "display": "Cash",
+                "__typename": "AccountType"
+            },
+            "subtype": {
+                "name": "savings",
+                "display": "Savings",
+                "__typename": "AccountSubtype"
+            },
+            "__typename": "Account"
+        }
+    ],
+    "householdPreferences": {
+        "id": "66666",
+        "accountGroupOrder": [],
+        "__typename": "HouseholdPreferences"
+    }
+}

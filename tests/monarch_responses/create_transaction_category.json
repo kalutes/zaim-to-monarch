@@ -1,0 +1,24 @@
+{
+    "createCategory": {
+        "errors": null,
+        "category": {
+            "id": "22222",
+            "order": 4,
+            "name": "New Group Name",
+            "systemCategory": null,
+            "systemCategoryDisplayName": null,
+            "budgetVariability": null,
+            "isSystemCategory": false,
+            "isDisabled": false,
+            "group": {
+                "id": "11111",
+                "type": "expense",
+                "groupLevelBudgetingEnabled": false,
+                "__typename": "CategoryGroup"
+            },
+            "rolloverPeriod": null,
+            "__typename": "Category"
+        },
+        "__typename": "CreateCategoryPayload"
+    }
+}

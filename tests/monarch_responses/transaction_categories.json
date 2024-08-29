@@ -1,0 +1,34 @@
+{
+    "categories": [
+        {
+            "id": "1111",
+            "order": 3,
+            "name": "Pets",
+            "systemCategory": "pets",
+            "isSystemCategory": true,
+            "isDisabled": false,
+            "group": {
+                "id": "1111",
+                "name": "Travel & Lifestyle",
+                "type": "expense",
+                "__typename": "CategoryGroup"
+            },
+            "__typename": "Category"
+        },
+        {
+            "id": "2222",
+            "order": 3,
+            "name": "zaim-to-monarch",
+            "systemCategory": null,
+            "isSystemCategory": false,
+            "isDisabled": false,
+            "group": {
+                "id": "4444",
+                "name": "Other",
+                "type": "expense",
+                "__typename": "CategoryGroup"
+            },
+            "__typename": "Category"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "createManualAccount": {
+        "account": {
+            "id": "new_account_id",
+            "__typename": "Account"
+        },
+        "errors": null,
+        "__typename": "CreateManualAccountMutation"
+    }
+}

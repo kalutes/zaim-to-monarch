@@ -1,0 +1,9 @@
+{
+    "createTransaction": {
+        "errors": null,
+        "transaction": {
+            "id": "44444"
+        },
+        "__typename": "CreateTransactionMutation"
+    }
+}

@@ -1,0 +1,171 @@
+{
+    "allTransactions": {
+        "totalCount": 5,
+        "results": [
+            {
+                "id": "11111",
+                "amount": -600,
+                "pending": false,
+                "date": "2020-09-19",
+                "hideFromReports": false,
+                "notes": "amount_jpy=60000",
+                "isRecurring": false,
+                "reviewStatus": null,
+                "needsReview": false,
+                "attachments": [],
+                "isSplitTransaction": false,
+                "category": {
+                    "id": "184504200540590961",
+                    "name": "Credit Card Payment",
+                    "__typename": "Category"
+                },
+                "merchant": {
+                    "name": "Capital One",
+                    "id": "184504434186391680",
+                    "transactionsCount": 36,
+                    "__typename": "Merchant"
+                },
+                "account": {
+                    "id": "184504432816951899",
+                    "displayName": "JP Checking",
+                    "__typename": "Account"
+                },
+                "tags": [],
+                "__typename": "Transaction"
+            },
+            {
+                "id": "22222",
+                "amount": 150.0,
+                "pending": false,
+                "date": "2020-09-16",
+                "hideFromReports": false,
+                "notes": "amount_jpy=2000,zaim_id=5467",
+                "isRecurring": false,
+                "reviewStatus": null,
+                "needsReview": false,
+                "attachments": [],
+                "isSplitTransaction": false,
+                "category": {
+                    "id": "184504200540590906",
+                    "name": "Other Income",
+                    "__typename": "Category"
+                },
+                "merchant": {
+                    "name": "eDeposit",
+                    "id": "184504442419810589",
+                    "transactionsCount": 2,
+                    "__typename": "Merchant"
+                },
+                "account": {
+                    "id": "184504432816951899",
+                    "displayName": "JP Checking",
+                    "__typename": "Account"
+                },
+                "tags": [],
+                "__typename": "Transaction"
+            },
+            {
+                "id": "33333",
+                "amount": -126.23,
+                "pending": false,
+                "date": "2020-09-13",
+                "hideFromReports": false,
+                "notes": "amount_jpy=-20000,zaim_id=5468",
+                "isRecurring": false,
+                "reviewStatus": null,
+                "needsReview": false,
+                "attachments": [],
+                "isSplitTransaction": false,
+                "createdAt": "2024-07-29T12:59:08.511678+00:00",
+                "updatedAt": "2024-07-29T12:59:08.511684+00:00",
+                "category": {
+                    "id": "184504200540590961",
+                    "name": "Credit Card Payment",
+                    "__typename": "Category"
+                },
+                "merchant": {
+                    "name": "Capital One",
+                    "id": "184504434186391680",
+                    "transactionsCount": 36,
+                    "__typename": "Merchant"
+                },
+                "account": {
+                    "id": "184504432816951899",
+                    "displayName": "JP Checking",
+                    "__typename": "Account"
+                },
+                "tags": [],
+                "__typename": "Transaction"
+            },
+            {
+                "id": "44444",
+                "amount": 56.4,
+                "pending": false,
+                "date": "2020-09-11",
+                "hideFromReports": false,
+                "notes": "amount_jpy=-20000",
+                "isRecurring": false,
+                "reviewStatus": null,
+                "needsReview": false,
+                "attachments": [],
+                "isSplitTransaction": false,
+                "category": {
+                    "id": "184504200540590960",
+                    "name": "Transfer",
+                    "__typename": "Category"
+                },
+                "merchant": {
+                    "name": "Venmo",
+                    "id": "184504434178003071",
+                    "transactionsCount": 32,
+                    "__typename": "Merchant"
+                },
+                "account": {
+                    "id": "184504432816951899",
+                    "displayName": "JP Checking",
+                    "__typename": "Account"
+                },
+                "tags": [],
+                "__typename": "Transaction"
+            },
+            {
+                "id": "55555",
+                "amount": 1976.8,
+                "pending": false,
+                "date": "2020-09-05",
+                "hideFromReports": false,
+                "notes": "amount_jpy=-20000,zaim_id=4356",
+                "isRecurring": false,
+                "reviewStatus": null,
+                "needsReview": false,
+                "attachments": [],
+                "isSplitTransaction": false,
+                "category": {
+                    "id": "184504200540590960",
+                    "name": "Transfer",
+                    "__typename": "Category"
+                },
+                "merchant": {
+                    "name": "Coinbase",
+                    "id": "184504442434490654",
+                    "transactionsCount": 1,
+                    "__typename": "Merchant"
+                },
+                "account": {
+                    "id": "184504432816951899",
+                    "displayName": "JP Checking",
+                    "__typename": "Account"
+                },
+                "tags": [],
+                "__typename": "Transaction"
+            }
+        ],
+        "__typename": "TransactionList"
+    },
+    "transactionRules": [
+        {
+            "id": "3463456",
+            "__typename": "TransactionRuleV2"
+        }
+    ]
+}
