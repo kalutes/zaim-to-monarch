@@ -25,9 +25,7 @@ class Zaim:
                 account_name, "", Amount(jpy=balance_jpy), {}
             )
 
-    def load_data(
-        self, start_date: dt.datetime.date, end_date: dt.datetime.date
-    ) -> None:
+    def load_data(self, start_date: dt.date, end_date: dt.date) -> None:
 
         current_batch_date = dt.date(
             year=start_date.year, month=start_date.month, day=1

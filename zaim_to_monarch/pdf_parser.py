@@ -8,7 +8,7 @@ from .account_data import Account, Amount, Transaction
 
 class PdfParser:
     _TRANSACTION_REGEX = re.compile(
-        r"^(?P<date>\d\d/\d\d/\d\d)(?P<merchant>.*)JPY(?P<amount>.*)"
+        r"^(?P<date>\d\d/\d\d/\d\d)(?P<merchant>.*)JPY(?P<amount>.*\.\d\d).*"
     )
 
     def __init__(self, account_name: str):
@@ -49,16 +49,23 @@ class PdfParser:
             if not match:
                 continue
 
-            date = dt.datetime.strptime(match["date"], "%y/%m/%d").date()
-            merchant = match["merchant"].lstrip().rstrip()
-            amount_jpy = -1 * float(
-                match["amount"].strip().replace(",", "").replace("‑", "-")
-            )
-
-            self._account.add_transaction(
-                Transaction(
-                    date,
-                    merchant,
-                    Amount(jpy=amount_jpy, date=date),
+            try:
+                date: dt.date = dt.datetime.strptime(
+                    match["date"], "%y/%m/%d"
+                ).date()
+                merchant: str = match["merchant"].lstrip().rstrip()
+                amount_jpy: float = -1 * float(
+                    match["amount"].strip().replace(",", "").replace("‑", "-")
                 )
-            )
+
+                self._account.add_transaction(
+                    Transaction(
+                        date,
+                        merchant,
+                        Amount(jpy=amount_jpy, date=date),
+                    )
+                )
+            except:
+                print(f"Error when parsing file: {filename}")
+                print(f"Line has bad format: {line}")
+                raise

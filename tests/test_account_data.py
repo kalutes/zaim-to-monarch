@@ -27,7 +27,7 @@ def test_amount_jpy_usd() -> None:
 
 
 def test_amount_usd_invalid_date_does_not_throw() -> None:
-    tomorrow: dt.datetime.date = dt.datetime.today() + relativedelta(days=1)
+    tomorrow: dt.date = dt.datetime.today() + relativedelta(days=1)
     amount: Amount = Amount(usd=1, date=tomorrow)
 
     assert amount.usd == 1
@@ -35,7 +35,7 @@ def test_amount_usd_invalid_date_does_not_throw() -> None:
 
 
 def test_amount_jpy_invalid_date_does_not_throw() -> None:
-    tomorrow: dt.datetime.date = dt.datetime.today() + relativedelta(days=1)
+    tomorrow: dt.date = dt.datetime.today() + relativedelta(days=1)
     amount: Amount = Amount(jpy=100, date=tomorrow)
 
     assert amount.jpy == 100

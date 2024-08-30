@@ -30,15 +30,21 @@ class Monarch:
 
         await self._get_accounts()
 
-    async def import_account(self, incoming_account: Account):
+    async def import_account(self, incoming_account: Account) -> None:
         if not incoming_account.name in self._accounts:
-            await self._create_account(incoming_account)
+            self._accounts[incoming_account.name] = Account(
+                name=incoming_account.name,
+                id="",
+                balance=incoming_account.balance,
+                years={},
+            )
 
         monarch_account = self._accounts[incoming_account.name]
 
         if incoming_account.balance:
             monarch_account.balance = incoming_account.balance
-            await self._update_account_balance(monarch_account)
+            if monarch_account.id:
+                await self._update_account_balance(monarch_account)
 
         for incoming_year in incoming_account.years.values():
             year: int = incoming_year.year
@@ -63,8 +69,15 @@ class Monarch:
     def accounts(self) -> Dict[str, Account]:
         return self._accounts
 
-    async def push(self) -> None:
+    async def push(self, dry_run=True) -> None:
         for account in self._accounts.values():
+            if not account.id:
+                print(
+                    f"Creating new monarch account: {account.name} Balance: {account.balance}"
+                )
+                if not dry_run:
+                    await self._push_new_account(account)
+
             for year in account.years.values():
                 for month in year.months.values():
                     for day in month.days.values():
@@ -72,10 +85,8 @@ class Monarch:
                             if transaction.needs_push_to_monarch:
 
                                 await self._update_transaction(
-                                    account.id, transaction
+                                    account.id, transaction, dry_run
                                 )
-
-                                transaction.needs_push_to_monarch = False
 
         return
 
@@ -92,15 +103,13 @@ class Monarch:
                 name=name, id=id, balance=Amount(usd=balance), years={}
             )
 
-    async def _create_account(self, account: Account) -> None:
+    async def _push_new_account(self, account: Account) -> None:
         account_type = "depository"
         account_subtype = "checking"
         # Very naive way to determine if this is a credit card or bank account.
         if account.balance.usd < 0:
             account_type = "credit"
             account_subtype = "credit_card"
-
-        print(f"Creating new Monarch Account: {account.name}")
 
         create_account_response = await self._mm.create_manual_account(
             account_type=account_type,
@@ -114,53 +123,52 @@ class Monarch:
             "account"
         ]["id"]
 
-        self._accounts[account.name] = Account(
-            name=account.name,
-            id=new_account_id,
-            balance=account.balance,
-            years={},
-        )
+        account.id = new_account_id
 
     async def _update_transaction(
-        self, account_id: str, transaction: Transaction
-    ) -> str:
+        self, account_id: str, transaction: Transaction, dry_run: bool
+    ) -> None:
+        if not dry_run:
+            transaction.needs_push_to_monarch = False
+
         if transaction.monarch_id:
             notes: str = self._create_transaction_notes(transaction)
-            print(
-                f"Updating transaction. Merchant: {transaction.merchant} Note: {notes}"
-            )
-            await self._mm.update_transaction(
-                transaction_id=transaction.monarch_id,
-                merchant_name=transaction.merchant,
-                notes=notes,
-            )
+            print(f"Updating transaction: {transaction}")
+            if not dry_run:
+                await self._mm.update_transaction(
+                    transaction_id=transaction.monarch_id,
+                    merchant_name=transaction.merchant,
+                    notes=notes,
+                )
             return
 
         if not self._transaction_category_id:
             await self._find_transaction_category_id()
 
-        print(
-            f"Creating new monarch transaction: {self._format_date(transaction.date)} {transaction.merchant} ¥{transaction.amount.jpy}"
-        )
+        print(f"Creating new transaction: {transaction}")
 
-        create_result = await self._mm.create_transaction(
-            date=self._format_date(transaction.date),
-            account_id=account_id,
-            amount=transaction.amount.usd,
-            merchant_name=transaction.merchant,
-            category_id=self._transaction_category_id,
-            notes=self._create_transaction_notes(transaction),
-        )
-        return create_result["createTransaction"]["transaction"]["id"]
+        if not dry_run:
+            create_result = await self._mm.create_transaction(
+                date=self._format_date(transaction.date),
+                account_id=account_id,
+                amount=transaction.amount.usd,
+                merchant_name=transaction.merchant,
+                category_id=self._transaction_category_id,
+                notes=self._create_transaction_notes(transaction),
+            )
+            transaction.monarch_id = create_result["createTransaction"][
+                "transaction"
+            ]["id"]
 
     async def _pull_monarch_transactions(
         self, account: Account, year: int, month: int
     ) -> None:
 
-        start_date: dt.datetime.date = dt.datetime(
-            year=year, month=month, day=1
-        ).date()
-        end_date: dt.datetime.date = (
+        if not account.id:
+            return
+
+        start_date: dt.date = dt.datetime(year=year, month=month, day=1).date()
+        end_date: dt.date = (
             start_date + relativedelta(months=1)
         ) - relativedelta(days=1)
 
@@ -235,8 +243,8 @@ class Monarch:
 
         return f"amount_jpy={int(round(transaction.amount.jpy))}{zaim_id_str}"
 
-    def _format_date(self, date: dt.datetime.date) -> str:
+    def _format_date(self, date: dt.date) -> str:
         return date.strftime("%Y-%m-%d")
 
-    def _parse_date(self, date_str: str) -> dt.datetime.date:
+    def _parse_date(self, date_str: str) -> dt.date:
         return dt.datetime.strptime(date_str, "%Y-%m-%d").date()

@@ -5,7 +5,7 @@ from .pdf_parser import PdfParser
 from .zaim import Zaim
 
 
-async def do_sync(start_date, end_date):
+async def do_sync(start_date, end_date) -> None:
 
     zaim = Zaim()
 
@@ -17,10 +17,10 @@ async def do_sync(start_date, end_date):
     for zaim_account in zaim.accounts().values():
         await monarch.import_account(zaim_account)
 
-    await monarch.push()
+    await monarch.push(dry_run=False)
 
 
-async def import_pdfs(pdfs_dir):
+async def import_pdfs(pdfs_dir) -> None:
     monarch = Monarch()
     await monarch.login()
 
@@ -51,6 +51,15 @@ async def import_pdfs(pdfs_dir):
 
     await monarch.import_account(parser.get_account())
 
-    await monarch.push()
+    print("The following changes would be made to monarch. Continue? (y/N)")
+    await monarch.push(dry_run=True)
+
+    choice = input()
+
+    if choice != "y":
+        print("Exiting.")
+        return
+
+    await monarch.push(dry_run=False)
 
     return

@@ -45,30 +45,6 @@ async def test_login_retrieves_accounts() -> None:
 
 
 @pytest.mark.asyncio
-async def test_import_new_account_creates_account() -> None:
-    fake_monarch_money: FakeMonarchMoney = FakeMonarchMoney()
-    monarch: Monarch = Monarch(mm=fake_monarch_money)
-    await monarch.login()
-
-    new_account: Account = Account(
-        name="New Account",
-        id="1234",
-        balance=Amount(usd=100),
-        years={},
-    )
-
-    await monarch.import_account(new_account)
-
-    accounts = monarch.accounts()
-    assert "New Account" in accounts
-    new_account = accounts["New Account"]
-    assert new_account.id == "new_account_id"
-    assert new_account.balance.usd == 100
-    assert new_account.balance.jpy != 0
-    assert len(new_account.years) == 0
-
-
-@pytest.mark.asyncio
 async def test_import_account_updates_balance() -> None:
     fake_monarch_money: FakeMonarchMoney = FakeMonarchMoney()
     monarch: Monarch = Monarch(mm=fake_monarch_money)
@@ -85,13 +61,13 @@ async def test_import_account_updates_balance() -> None:
 
 
 @pytest.mark.asyncio
-async def test_import_account_pulls_monthly_transactions() -> None:
+async def test_import_existing_account_pulls_monthly_transactions() -> None:
     fake_monarch_money: FakeMonarchMoney = FakeMonarchMoney()
     monarch: Monarch = Monarch(mm=fake_monarch_money)
     await monarch.login()
 
     new_account: Account = Account(
-        name="New Account",
+        name="JP Checking",
         id="1234",
         balance=Amount(usd=100),
         years={},
@@ -110,7 +86,7 @@ async def test_import_account_pulls_monthly_transactions() -> None:
 
     assert fake_monarch_money.get_transactions_start_date == "2020-09-01"
     assert fake_monarch_money.get_transactions_end_date == "2020-09-30"
-    assert fake_monarch_money.get_transactions_account_ids == ["new_account_id"]
+    assert fake_monarch_money.get_transactions_account_ids == ["44444"]
 
     assert new_account.name in monarch.accounts()
 
@@ -135,6 +111,35 @@ async def test_import_account_pulls_monthly_transactions() -> None:
     transaction = day.transactions[0]
     assert transaction.amount.jpy == 2000
     assert transaction.zaim_id == "5467"
+
+
+@pytest.mark.asyncio
+async def test_push_dry_run_does_not_create() -> None:
+    fake_monarch_money: FakeMonarchMoney = FakeMonarchMoney()
+    monarch: Monarch = Monarch(mm=fake_monarch_money)
+    await monarch.login()
+
+    new_account: Account = Account(
+        name="New Account",
+        id="1234",
+        balance=Amount(usd=100),
+        years={},
+    )
+
+    new_transaction: Transaction = Transaction(
+        date=dt.datetime(year=2020, month=9, day=10).date(),
+        merchant="Amazon",
+        amount=Amount(usd=6, jpy=123),
+        zaim_id="1234",
+    )
+
+    new_account.add_transaction(new_transaction)
+
+    await monarch.import_account(new_account)
+
+    await monarch.push(dry_run=True)
+
+    assert fake_monarch_money.create_transaction_count == 0
 
 
 @pytest.mark.asyncio
@@ -163,7 +168,7 @@ async def test_push_creates_correct_transaction_category() -> None:
 
     fake_monarch_money.category_exists = False
 
-    await monarch.push()
+    await monarch.push(dry_run=False)
 
     assert (
         fake_monarch_money.new_transaction_category_group_id
@@ -196,10 +201,36 @@ async def test_push_does_not_create_transaction_category_if_exists() -> None:
 
     await monarch.import_account(new_account)
 
-    await monarch.push()
+    await monarch.push(dry_run=False)
 
     assert not fake_monarch_money.new_transaction_category_group_id
     assert not fake_monarch_money.new_transaction_category_name
+
+
+@pytest.mark.asyncio
+async def test_push_new_account_creates_account() -> None:
+    fake_monarch_money: FakeMonarchMoney = FakeMonarchMoney()
+    monarch: Monarch = Monarch(mm=fake_monarch_money)
+    await monarch.login()
+
+    new_account: Account = Account(
+        name="New Account",
+        id="1234",
+        balance=Amount(usd=100),
+        years={},
+    )
+
+    await monarch.import_account(new_account)
+
+    await monarch.push(dry_run=False)
+
+    accounts = monarch.accounts()
+    assert "New Account" in accounts
+    new_account = accounts["New Account"]
+    assert new_account.id == "new_account_id"
+    assert new_account.balance.usd == 100
+    assert new_account.balance.jpy != 0
+    assert len(new_account.years) == 0
 
 
 @pytest.mark.asyncio
@@ -226,7 +257,7 @@ async def test_push_creates_transaction_fields() -> None:
 
     await monarch.import_account(new_account)
 
-    await monarch.push()
+    await monarch.push(dry_run=False)
 
     assert fake_monarch_money.create_transaction_count == 1
     assert fake_monarch_money.new_transaction_date == "2020-09-10"
@@ -265,14 +296,14 @@ async def test_push_no_new_transactions_does_not_create_update() -> None:
 
     await monarch.import_account(new_account)
 
-    await monarch.push()
+    await monarch.push(dry_run=False)
 
     assert fake_monarch_money.create_transaction_count == 0
     assert fake_monarch_money.update_transaction_count == 0
 
 
 @pytest.mark.asyncio
-async def test_push_existing_transaction_that_needs_update() -> None:
+async def test_push_existing_transaction_that_needs_zaim_id_update() -> None:
     fake_monarch_money: FakeMonarchMoney = FakeMonarchMoney()
     monarch: Monarch = Monarch(mm=fake_monarch_money)
     await monarch.login()
@@ -295,12 +326,48 @@ async def test_push_existing_transaction_that_needs_update() -> None:
 
     await monarch.import_account(new_account)
 
-    await monarch.push()
+    await monarch.push(dry_run=False)
 
     assert fake_monarch_money.create_transaction_count == 0
     assert fake_monarch_money.update_transaction_count == 1
     assert fake_monarch_money.update_transaction_id == "11111"
+    assert fake_monarch_money.update_transaction_merchant == "Capital One"
     assert (
         fake_monarch_money.update_transaction_notes
         == "amount_jpy=60000,zaim_id=1234"
+    )
+
+
+@pytest.mark.asyncio
+async def test_push_existing_transaction_that_needs_merchant_update() -> None:
+    fake_monarch_money: FakeMonarchMoney = FakeMonarchMoney()
+    monarch: Monarch = Monarch(mm=fake_monarch_money)
+    await monarch.login()
+
+    new_account: Account = Account(
+        name="JP Checking",
+        id="1234",
+        balance=Amount(usd=100),
+        years={},
+    )
+
+    new_transaction: Transaction = Transaction(
+        date=dt.datetime(year=2020, month=9, day=16).date(),
+        merchant="McDonald's",
+        amount=Amount(jpy=2000),
+    )
+
+    new_account.add_transaction(new_transaction)
+
+    await monarch.import_account(new_account)
+
+    await monarch.push(dry_run=False)
+
+    assert fake_monarch_money.create_transaction_count == 0
+    assert fake_monarch_money.update_transaction_count == 1
+    assert fake_monarch_money.update_transaction_id == "22222"
+    assert fake_monarch_money.update_transaction_merchant == "McDonald's"
+    assert (
+        fake_monarch_money.update_transaction_notes
+        == "amount_jpy=2000,zaim_id=5467"
     )

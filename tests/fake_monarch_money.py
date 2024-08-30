@@ -8,19 +8,20 @@ class FakeMonarchMoney:
     def __init__(self):
         self.get_accounts_count: int = 0
         self.balances: Dict[str, float] = {}
-        self.category_exists = True
-        self.create_transaction_count = 0
-        self.new_transaction_category_group_id = ""
-        self.new_transaction_category_name = ""
-        self.new_transaction_date = ""
-        self.new_transaction_account_id = ""
-        self.new_transaction_amount = 0
-        self.new_transaction_merchant = ""
-        self.new_transaction_category_id = ""
-        self.new_transaction_notes = ""
-        self.update_transaction_count = 0
-        self.update_transaction_id = ""
-        self.update_transaction_notes = ""
+        self.category_exists: bool = True
+        self.create_transaction_count: int = 0
+        self.new_transaction_category_group_id: str = ""
+        self.new_transaction_category_name: str = ""
+        self.new_transaction_date: str = ""
+        self.new_transaction_account_id: str = ""
+        self.new_transaction_amount: str = 0
+        self.new_transaction_merchant: str = ""
+        self.new_transaction_category_id: str = ""
+        self.new_transaction_notes: str = ""
+        self.update_transaction_count: int = 0
+        self.update_transaction_id: str = ""
+        self.update_transaction_merchant: str = ""
+        self.update_transaction_notes: str = ""
         return
 
     async def login(self, username: str, password: str) -> None:
@@ -98,10 +99,12 @@ class FakeMonarchMoney:
     async def update_transaction(
         self,
         transaction_id: str,
+        merchant_name: str,
         notes: Optional[str] = None,
     ) -> Dict[str, Any]:
         self.update_transaction_count += 1
         self.update_transaction_id = transaction_id
+        self.update_transaction_merchant = merchant_name
         self.update_transaction_notes = notes
         return
 

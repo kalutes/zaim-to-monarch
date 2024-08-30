@@ -16,7 +16,7 @@ class Amount:
         self,
         jpy: Optional[float] = None,
         usd: Optional[float] = None,
-        date: Optional[dt.datetime.date] = None,
+        date: Optional[dt.date] = None,
     ) -> None:
         if jpy and usd:
             self._jpy = jpy
@@ -39,10 +39,13 @@ class Amount:
     def usd(self) -> float:
         return self._usd
 
+    def __str__(self) -> str:
+        return f"(¥{round(self.jpy)}, ${round(self.usd, 2)})"
+
 
 @dataclasses.dataclass(frozen=False)
 class Transaction:
-    date: dt.datetime.date
+    date: dt.date
     merchant: str
     amount: Amount
     zaim_id: str = ""
@@ -50,7 +53,7 @@ class Transaction:
     needs_push_to_monarch: bool = False
 
     def __str__(self):
-        return f"Date: {self.date} Merchant: {self.merchant} Amount: {self.amount} ID: {self.zaim_id}"
+        return f"Date: {self.date} Merchant: {self.merchant} Amount: {self.amount} zaim_id: {self.zaim_id} monarch_id: {self.monarch_id}"
 
 
 @dataclasses.dataclass(frozen=False)

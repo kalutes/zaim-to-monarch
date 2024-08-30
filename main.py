@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
 
 
-def sync_once(start_date, end_date):
+def sync_once(start_date: dt.date, end_date: dt.date) -> None:
     if end_date < start_date:
         print("Start date cannot be after end date.")
         return 1
@@ -19,14 +19,14 @@ def sync_once(start_date, end_date):
     asyncio.run(zaim_to_monarch.do_sync(start_date, end_date))
 
 
-def import_pdfs(pdfs_dir: str):
+def import_pdfs(pdfs_dir: str) -> None:
     asyncio.run(zaim_to_monarch.import_pdfs(pdfs_dir))
 
 
 last_sync_date = dt.datetime.min
 
 
-def periodic_sync_once(days_interval):
+def periodic_sync_once(days_interval: int) -> None:
     global last_sync_date
     if last_sync_date == dt.datetime.min:
         last_sync_date = dt.datetime.now() - relativedelta(days=days_interval)
@@ -44,7 +44,7 @@ def periodic_sync_once(days_interval):
         )
 
 
-def periodic_sync(days_interval):
+def periodic_sync(days_interval: int) -> None:
     schedule.every(days_interval).days.do(
         periodic_sync_once, days_interval=days_interval
     )
@@ -59,14 +59,14 @@ def periodic_sync(days_interval):
         time.sleep(3600)
 
 
-def dir_path(path):
+def dir_path(path: str) -> str:
     if os.path.isdir(path):
         return path
     else:
         raise argparse.ArgumentTypeError(f"pdf:{path} is not a valid path")
 
 
-def main():
+def main() -> int:
     parser = argparse.ArgumentParser(
         description="Sync zaim data to monarch money."
     )
