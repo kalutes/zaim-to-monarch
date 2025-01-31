@@ -24,9 +24,10 @@ class Monarch:
         self._transaction_category_id = ""
 
     async def login(self) -> None:
-        await self._mm.login(
-            os.getenv("MONARCH_USERNAME"), os.getenv("MONARCH_PASSWORD")
-        )
+        username = os.getenv("MONARCH_USERNAME")
+        password = os.getenv("MONARCH_PASSWORD")
+        mfa_key = os.getenv("MONARCH_MFA_KEY")
+        await self._mm.login(username, password, mfa_secret_key=mfa_key)
 
         await self._get_accounts()
 
@@ -58,9 +59,7 @@ class Monarch:
                 month: int = incoming_month.month
 
                 if not month in monarch_account_year.months:
-                    await self._pull_monarch_transactions(
-                        monarch_account, year, month
-                    )
+                    await self._pull_monarch_transactions(monarch_account, year, month)
 
                 for incoming_day in incoming_month.days.values():
                     for incoming_transaction in incoming_day.transactions:
@@ -97,7 +96,7 @@ class Monarch:
 
             id: str = raw_account["id"]
             name: str = raw_account["displayName"]
-            balance: float = raw_account["currentBalance"]
+            balance: float = raw_account["displayBalance"]
 
             self._accounts[name] = Account(
                 name=name, id=id, balance=Amount(usd=balance), years={}
@@ -119,9 +118,9 @@ class Monarch:
             account_balance=account.balance.usd,
         )
 
-        new_account_id: str = create_account_response["createManualAccount"][
-            "account"
-        ]["id"]
+        new_account_id: str = create_account_response["createManualAccount"]["account"][
+            "id"
+        ]
 
         account.id = new_account_id
 
@@ -156,9 +155,9 @@ class Monarch:
                 category_id=self._transaction_category_id,
                 notes=self._create_transaction_notes(transaction),
             )
-            transaction.monarch_id = create_result["createTransaction"][
-                "transaction"
-            ]["id"]
+            transaction.monarch_id = create_result["createTransaction"]["transaction"][
+                "id"
+            ]
 
     async def _pull_monarch_transactions(
         self, account: Account, year: int, month: int
@@ -168,9 +167,9 @@ class Monarch:
             return
 
         start_date: dt.date = dt.datetime(year=year, month=month, day=1).date()
-        end_date: dt.date = (
-            start_date + relativedelta(months=1)
-        ) - relativedelta(days=1)
+        end_date: dt.date = (start_date + relativedelta(months=1)) - relativedelta(
+            days=1
+        )
 
         raw_transactions = await self._mm.get_transactions(
             limit=self._TRANSACTION_LIMIT,
@@ -231,9 +230,9 @@ class Monarch:
             transaction_category_name=self._TRANSACTION_CATEGORY,
         )
 
-        self._transaction_category_id = create_result["createCategory"][
-            "category"
-        ]["id"]
+        self._transaction_category_id = create_result["createCategory"]["category"][
+            "id"
+        ]
 
     def _create_transaction_notes(self, transaction: Transaction) -> str:
         zaim_id_str: str = ""

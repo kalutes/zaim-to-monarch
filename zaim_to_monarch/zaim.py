@@ -6,7 +6,7 @@ from typing import Dict
 from dateutil.relativedelta import relativedelta
 
 from .account_data import Account, Amount, Transaction
-from .pyzaim import ZaimCrawler
+from .zaim_crawler import ZaimCrawler
 
 
 class Zaim:
@@ -15,7 +15,6 @@ class Zaim:
         self._crawler: ZaimCrawler = ZaimCrawler(
             os.getenv("ZAIM_USERNAME"),
             os.getenv("ZAIM_PASSWORD"),
-            poor=True,
         )
 
         balances = self._crawler.get_account_balances()

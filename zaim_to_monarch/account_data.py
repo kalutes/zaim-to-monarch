@@ -18,16 +18,20 @@ class Amount:
         usd: Optional[float] = None,
         date: Optional[dt.date] = None,
     ) -> None:
-        if jpy and usd:
+        
+        if jpy is None and usd is None:
+            raise Exception("Either JPY or USD is required")
+
+        if jpy is not None and usd is not None:
             self._jpy = jpy
             self._usd = usd
             return
 
-        if jpy:
+        if jpy is not None:
             self._jpy = jpy
             self._usd = self._converter.convert(jpy, "JPY", "USD", date)
 
-        if usd:
+        if usd is not None:
             self._usd = usd
             self._jpy = self._converter.convert(usd, "USD", "JPY", date)
 
