@@ -115,7 +115,7 @@ class Monarch:
             account_sub_type=account_subtype,
             is_in_net_worth=True,
             account_name=account.name,
-            account_balance=account.balance.usd,
+            account_balance=abs(account.balance.usd),
         )
 
         new_account_id: str = create_account_response["createManualAccount"]["account"][
